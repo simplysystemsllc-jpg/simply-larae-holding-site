@@ -1,0 +1,571 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Simply LaRae Beauty Platform API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: submissions
+    description: Beauty assessment submissions
+  - name: services
+    description: Service tiers
+  - name: products
+    description: Beauty products
+  - name: recommendations
+    description: Personalized recommendations
+  - name: cart
+    description: Beauty cart
+  - name: contact
+    description: Contact form
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /services:
+    get:
+      operationId: listServices
+      tags: [services]
+      summary: List all service tiers
+      responses:
+        "200":
+          description: List of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Service"
+
+  /submissions:
+    post:
+      operationId: createSubmission
+      tags: [submissions]
+      summary: Create a new beauty assessment submission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSubmissionRequest"
+      responses:
+        "201":
+          description: Submission created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+
+  /submissions/{id}:
+    get:
+      operationId: getSubmission
+      tags: [submissions]
+      summary: Get submission by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Submission found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+        "404":
+          description: Submission not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /recommendations/{submissionId}:
+    get:
+      operationId: getRecommendations
+      tags: [recommendations]
+      summary: Get recommendations for a submission
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Recommendations found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Recommendation"
+
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List beauty products
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: priceRange
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [drugstore, midrange, highend]
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+
+  /cart:
+    get:
+      operationId: getCart
+      tags: [cart]
+      summary: Get cart items
+      parameters:
+        - name: sessionId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cart items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+    post:
+      operationId: addToCart
+      tags: [cart]
+      summary: Add item to cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddToCartRequest"
+      responses:
+        "201":
+          description: Item added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartItem"
+
+  /cart/{id}:
+    delete:
+      operationId: removeFromCart
+      tags: [cart]
+      summary: Remove item from cart
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Item removed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /contact:
+    post:
+      operationId: submitContact
+      tags: [contact]
+      summary: Submit a contact form message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactRequest"
+      responses:
+        "201":
+          description: Contact submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /faqs:
+    get:
+      operationId: listFaqs
+      tags: [health]
+      summary: List frequently asked questions
+      responses:
+        "200":
+          description: List of FAQs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Faq"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      required:
+        - error
+        - message
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        name:
+          type: string
+        tagline:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        priceDisplay:
+          type: string
+        features:
+          type: array
+          items:
+            type: string
+        isPopular:
+          type: boolean
+        sortOrder:
+          type: integer
+      required:
+        - id
+        - slug
+        - name
+        - tagline
+        - description
+        - price
+        - priceDisplay
+        - features
+        - isPopular
+        - sortOrder
+
+    IntakeData:
+      type: object
+      properties:
+        fullName:
+          type: string
+        email:
+          type: string
+        ageRange:
+          type: string
+        skinType:
+          type: string
+        skinTone:
+          type: string
+        undertone:
+          type: string
+        sensitivities:
+          type: string
+        hairColor:
+          type: string
+        eyeColor:
+          type: string
+        hasFreckles:
+          type: string
+        makeupExperience:
+          type: string
+        preferredBrands:
+          type: string
+        dislikedBrands:
+          type: string
+        budgetPreference:
+          type: string
+        makeupStyle:
+          type: string
+        desiredCoverage:
+          type: string
+        preferredFinish:
+          type: string
+        favoriteProducts:
+          type: string
+        productsNeverWork:
+          type: string
+        everydayGoals:
+          type: string
+        eventNeeds:
+          type: string
+        biggestFrustration:
+          type: string
+        storePreference:
+          type: string
+        routinePreference:
+          type: string
+        primerPreference:
+          type: string
+        applicationMethod:
+          type: string
+      required:
+        - fullName
+        - email
+        - ageRange
+        - skinType
+        - skinTone
+        - undertone
+        - makeupExperience
+        - budgetPreference
+        - makeupStyle
+
+    CreateSubmissionRequest:
+      type: object
+      properties:
+        serviceId:
+          type: integer
+        intakeData:
+          $ref: "#/components/schemas/IntakeData"
+        selfieUrl:
+          type: string
+        sessionId:
+          type: string
+      required:
+        - serviceId
+        - intakeData
+        - sessionId
+
+    Submission:
+      type: object
+      properties:
+        id:
+          type: integer
+        serviceId:
+          type: integer
+        sessionId:
+          type: string
+        intakeData:
+          $ref: "#/components/schemas/IntakeData"
+        selfieUrl:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [pending, processing, review, completed]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - serviceId
+        - sessionId
+        - intakeData
+        - status
+        - createdAt
+        - updatedAt
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        brand:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        priceRange:
+          type: string
+          enum: [drugstore, midrange, highend]
+        imageUrl:
+          type: string
+          nullable: true
+        purchaseUrl:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - name
+        - brand
+        - category
+        - description
+        - price
+        - priceRange
+        - tags
+
+    Recommendation:
+      type: object
+      properties:
+        id:
+          type: integer
+        submissionId:
+          type: integer
+        product:
+          $ref: "#/components/schemas/Product"
+        category:
+          type: string
+        reason:
+          type: string
+        applicationTip:
+          type: string
+          nullable: true
+        sortOrder:
+          type: integer
+      required:
+        - id
+        - submissionId
+        - product
+        - category
+        - reason
+        - sortOrder
+
+    Cart:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartItem"
+        totalItems:
+          type: integer
+        estimatedTotal:
+          type: number
+      required:
+        - sessionId
+        - items
+        - totalItems
+        - estimatedTotal
+
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        sessionId:
+          type: string
+        product:
+          $ref: "#/components/schemas/Product"
+        quantity:
+          type: integer
+        addedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - sessionId
+        - product
+        - quantity
+        - addedAt
+
+    AddToCartRequest:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        productId:
+          type: integer
+        quantity:
+          type: integer
+      required:
+        - sessionId
+        - productId
+        - quantity
+
+    ContactRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+      required:
+        - name
+        - email
+        - subject
+        - message
+
+    Faq:
+      type: object
+      properties:
+        id:
+          type: integer
+        question:
+          type: string
+        answer:
+          type: string
+        category:
+          type: string
+        sortOrder:
+          type: integer
+      required:
+        - id
+        - question
+        - answer
+        - category
+        - sortOrder
