@@ -155,11 +155,15 @@ Scaffold with 6 transactional flows. Console-log mode by default. Ready for Rese
 
 Service-purchase focused (not retail). Returns 503 with contact info if STRIPE_SECRET_KEY not configured. Webhook-ready for `checkout.session.completed`.
 
-## SEO Files
+## SEO Architecture
 
-- `public/robots.txt` — Disallows /admin and /api, includes sitemap URL
-- `public/sitemap.xml` — 9 URLs with changefreq and priority
-- `index.html` — Full meta, Open Graph, Twitter Cards, JSON-LD structured data, canonical
+- `index.html` — Comprehensive primary meta, OG, Twitter Card, JSON-LD `@graph` (WebSite, Organization, ProfessionalService with offer catalog, WebPage, FAQPage), canonical, PWA meta, geo tags, Google Fonts preload
+- `public/robots.txt` — Disallows /admin, /api, /intake, /results/, /blueprint/, /cart; explicit AI crawler policies (GPTBot, Claude, Perplexity, etc.)
+- `public/sitemap.xml` — 9 URLs with lastmod dates, changefreq and priority
+- `public/site.webmanifest` — PWA manifest with brand colors
+- `src/components/seo/SEO.tsx` — Reusable per-page `<SEO>` component using react-helmet-async; accepts title, description, keywords, canonical, ogImage, noIndex
+- Per-page SEO on: ComingSoonPage, Services, HowItWorks, About, FAQ, Contact pages
+- `HelmetProvider` wraps the entire app in App.tsx
 
 ## Independence Policy (Hardcoded)
 
@@ -188,6 +192,24 @@ Controls whether the public homepage shows the coming soon page or the full site
 - `src/App.tsx` — suppresses `<Footer />` in `coming_soon` (ComingSoonPage has its own footer)
 
 **To restore full site:** Change `VITE_SITE_MODE=full` in `.env`, restart web workflow.
+
+## Code Quality & Performance
+
+**Completed optimizations (March 2025):**
+- Route component wrappers (`wrap()`) hoisted to module scope — prevents React remounting pages on every Router re-render
+- Branded 404 page using brand palette + "Return Home" button (replaces old gray card)
+- Array sort mutation fixed in services.tsx and faq.tsx — now uses spread copy before sorting
+- Contact form `scroll-mt` corrected to `scroll-mt-28` to clear 80px sticky navbar
+- Navbar: added `aria-label`, `aria-expanded`, `aria-controls` to hamburger; `aria-current="page"` on active nav links; Escape-key close; body scroll lock when open; auto-close on route change; `role="banner"` on header
+- Modal close buttons: proper `aria-label` on Waitlist and Partnership modals
+- `overflow-x: hidden` on html + body prevents animation-caused horizontal scroll
+- `scroll-behavior: smooth` on html element
+- `-webkit-tap-highlight-color: transparent` for cleaner mobile tap feedback
+- `:focus-visible` ring using brand primary color
+- `img, video { max-width: 100% }` prevents media overflow
+- About page image: `loading="lazy"`, `decoding="async"`, gradient fallback on 404
+- Google Fonts removed from CSS `@import` (was duplicating the `<link>` in index.html)
+- Footer disclaimer `text-right` scoped to `md:text-right` only — left-aligned on mobile
 
 ## Roadmap
 

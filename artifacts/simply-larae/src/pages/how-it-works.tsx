@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Upload, Sparkles, ShoppingBag, Heart } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 
 export default function HowItWorks() {
   const steps = [
@@ -29,6 +30,12 @@ export default function HowItWorks() {
 
   return (
     <div className="w-full bg-white pb-32">
+      <SEO
+        title="How It Works — AI Facial Analysis to Personalized Beauty Blueprint"
+        description="Four steps from selfie to personalized beauty routine. Simply LaRae analyzes your facial structure, undertones, and features to deliver exact shade matches and curated product picks — no guesswork."
+        keywords="how facial analysis works, beauty blueprint process, AI makeup recommendations explained, personalized beauty steps, shade matching process, beauty concierge how to, makeup routine customization process"
+        canonical="/how-it-works"
+      />
       <section className="pt-24 pb-16 px-4 text-center bg-background border-b border-border/50">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-thin tracking-[0.15em] uppercase mb-6 text-foreground">
@@ -75,7 +82,7 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        <div className="mt-32 text-center">
+        <div className="mt-12 sm:mt-24 text-center">
           <Button asChild size="lg" className="rounded-full px-12 py-8 text-sm tracking-widest uppercase bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 transition-all hover:-translate-y-1">
             <Link href="/services">Start Your Journey</Link>
           </Button>

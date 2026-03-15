@@ -4,13 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, Star } from "lucide-react";
 import { useListServices } from "@workspace/api-client-react";
+import { SEO } from "@/components/seo/SEO";
 
 export default function Services() {
   const { data: services, isLoading } = useListServices();
-  const sortedServices = services?.sort((a, b) => a.sortOrder - b.sortOrder) || [];
+  const sortedServices = services ? [...services].sort((a, b) => a.sortOrder - b.sortOrder) : [];
 
   return (
     <div className="w-full bg-background min-h-screen pb-24">
+      <SEO
+        title="Beauty Concierge Services & Pricing"
+        description="Choose your Simply LaRae service tier — from the $39 Beauty Blueprint to the $299 VIP Beauty Concierge. Every tier includes personalized shade matching and product recommendations tailored to your facial analysis."
+        keywords="beauty blueprint, personalized makeup consultation, beauty concierge pricing, shade matching service, custom beauty plan cost, VIP beauty advisor, facial analysis makeup service"
+        canonical="/services"
+      />
       {/* Header */}
       <section className="pt-24 pb-16 px-4 text-center max-w-4xl mx-auto">
         <motion.div
@@ -84,7 +91,7 @@ export default function Services() {
       </section>
       
       {/* Guarantees */}
-      <section className="mt-32 max-w-4xl mx-auto px-4 text-center">
+      <section className="mt-16 sm:mt-28 max-w-4xl mx-auto px-4 text-center">
          <h3 className="text-xs uppercase tracking-[0.2em] text-primary mb-8 font-semibold">The Simply LaRae Promise</h3>
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm text-muted-foreground font-light">
             <div>

@@ -10,11 +10,13 @@
 
 const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || "console";
 const FROM_EMAIL = process.env.FROM_EMAIL || "hello@simplylarea.com";
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@simplylarea.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "simplylarae.dba@gmail.com";
+const ADMIN_CC = process.env.ADMIN_CC || "simplysystemsllc@gmail.com";
 const BRAND = "Simply LaRae";
 
 interface EmailPayload {
   to: string;
+  cc?: string | string[];
   subject: string;
   html: string;
   from?: string;
@@ -22,7 +24,8 @@ interface EmailPayload {
 
 async function sendEmail(payload: EmailPayload): Promise<void> {
   if (EMAIL_PROVIDER === "console") {
-    console.log(`[EMAIL] To: ${payload.to} | Subject: ${payload.subject}`);
+    const ccStr = payload.cc ? ` | CC: ${Array.isArray(payload.cc) ? payload.cc.join(", ") : payload.cc}` : "";
+    console.log(`[EMAIL] To: ${payload.to}${ccStr} | Subject: ${payload.subject}`);
     return;
   }
 
@@ -33,6 +36,7 @@ async function sendEmail(payload: EmailPayload): Promise<void> {
     await resend.emails.send({
       from: payload.from ?? FROM_EMAIL,
       to: payload.to,
+      cc: payload.cc,
       subject: payload.subject,
       html: payload.html,
     });
@@ -117,6 +121,7 @@ export async function sendSelfieReceived(to: string, customerName: string): Prom
 export async function sendAdminNewSubmission(submissionId: number, customerName: string, serviceName: string): Promise<void> {
   await sendEmail({
     to: ADMIN_EMAIL,
+    cc: ADMIN_CC,
     subject: `[Admin] New Submission #${submissionId} — ${customerName}`,
     html: baseTemplate(`
       <p><strong>New submission received.</strong></p>
@@ -167,6 +172,7 @@ export async function sendConciergeRequestConfirmation(to: string, customerName:
 export async function sendBrandInquiryNotification(brandName: string, contactEmail: string, message: string): Promise<void> {
   await sendEmail({
     to: ADMIN_EMAIL,
+    cc: ADMIN_CC,
     subject: `[Brand Inquiry] ${brandName}`,
     html: baseTemplate(`
       <p><strong>New brand partnership inquiry received.</strong></p>
@@ -174,6 +180,21 @@ export async function sendBrandInquiryNotification(brandName: string, contactEma
       <strong>Contact:</strong> ${contactEmail}</p>
       <p><strong>Message:</strong><br/>${message}</p>
       <p>Please review and log this inquiry in the admin dashboard Brand Partnership tracker.</p>
+    `),
+  });
+}
+
+export async function sendContactNotification(name: string, fromEmail: string, subject: string, message: string): Promise<void> {
+  await sendEmail({
+    to: ADMIN_EMAIL,
+    cc: ADMIN_CC,
+    subject: `[Contact] ${subject} — ${name}`,
+    html: baseTemplate(`
+      <p><strong>New contact form submission.</strong></p>
+      <p><strong>From:</strong> ${name}<br/>
+      <strong>Email:</strong> ${fromEmail}<br/>
+      <strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong><br/>${message.replace(/\n/g, "<br/>")}</p>
     `),
   });
 }

@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
+import { SEO } from "@/components/seo/SEO";
 
 export default function About() {
   return (
     <div className="w-full bg-white pb-32">
+      <SEO
+        title="Our Philosophy — Independent Beauty Advisory"
+        description="Simply LaRae is an independent beauty advisory platform built on a simple principle: your recommendations should be fit-first, face-data driven, and completely free from pay-to-play brand influence. Learn our story."
+        keywords="beauty advisory philosophy, independent beauty recommendations, beauty concierge story, simply larae about, beauty tech company, personalized beauty advisory"
+        canonical="/about"
+      />
       <section className="pt-24 pb-16 px-4 bg-background border-b border-border/50 text-center">
         <h1 className="text-4xl md:text-6xl font-thin tracking-[0.15em] uppercase mb-6 text-foreground">
           Our Philosophy
@@ -24,8 +31,18 @@ export default function About() {
             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border border-border">
               <img 
                 src={`${import.meta.env.BASE_URL}images/about-editorial.png`} 
-                alt="Editorial beauty" 
+                alt="Simply LaRae — editorial beauty visual"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  target.style.display = "none";
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.style.background = "linear-gradient(135deg, #F5E7E3 0%, #EED4CF 50%, #D9A9A3 100%)";
+                  }
+                }}
               />
             </div>
           </motion.div>

@@ -1,5 +1,6 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect } from "react";
@@ -46,27 +47,45 @@ const wrap = (Component: React.ComponentType) => () => (
   </>
 );
 
+// Stable wrapped components — defined once at module level so React never
+// sees a new component type at the same route position (which would cause
+// full unmount/remount on every re-render of Router).
+const WrappedHome       = wrap(Home);
+const WrappedServices   = wrap(Services);
+const WrappedHowItWorks = wrap(HowItWorks);
+const WrappedIntake     = wrap(Intake);
+const WrappedUpload     = wrap(Upload);
+const WrappedResults    = wrap(Results);
+const WrappedBlueprint  = wrap(Blueprint);
+const WrappedCart       = wrap(Cart);
+const WrappedAbout      = wrap(About);
+const WrappedFAQ        = wrap(FAQ);
+const WrappedContact    = wrap(Contact);
+const WrappedLegal      = wrap(Legal);
+const WrappedDisclaimer = wrap(Disclaimer);
+const WrappedAdmin      = wrap(Admin);
+
 function Router() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className={`flex-grow${isComingSoon ? " pt-0" : ""}`}>
         <Switch>
-          <Route path="/" component={wrap(Home)} />
-          <Route path="/services" component={wrap(Services)} />
-          <Route path="/how-it-works" component={wrap(HowItWorks)} />
-          <Route path="/intake" component={wrap(Intake)} />
-          <Route path="/upload" component={wrap(Upload)} />
-          <Route path="/results/:id" component={wrap(Results)} />
-          <Route path="/blueprint/:id" component={wrap(Blueprint)} />
-          <Route path="/cart" component={wrap(Cart)} />
-          <Route path="/about" component={wrap(About)} />
-          <Route path="/faq" component={wrap(FAQ)} />
-          <Route path="/contact" component={wrap(Contact)} />
-          <Route path="/privacy" component={wrap(Legal)} />
-          <Route path="/terms" component={wrap(Legal)} />
-          <Route path="/disclaimer" component={wrap(Disclaimer)} />
-          <Route path="/admin" component={wrap(Admin)} />
+          <Route path="/"            component={WrappedHome} />
+          <Route path="/services"    component={WrappedServices} />
+          <Route path="/how-it-works" component={WrappedHowItWorks} />
+          <Route path="/intake"      component={WrappedIntake} />
+          <Route path="/upload"      component={WrappedUpload} />
+          <Route path="/results/:id" component={WrappedResults} />
+          <Route path="/blueprint/:id" component={WrappedBlueprint} />
+          <Route path="/cart"        component={WrappedCart} />
+          <Route path="/about"       component={WrappedAbout} />
+          <Route path="/faq"         component={WrappedFAQ} />
+          <Route path="/contact"     component={WrappedContact} />
+          <Route path="/privacy"     component={WrappedLegal} />
+          <Route path="/terms"       component={WrappedLegal} />
+          <Route path="/disclaimer"  component={WrappedDisclaimer} />
+          <Route path="/admin"       component={WrappedAdmin} />
           <Route component={NotFound} />
         </Switch>
       </main>
@@ -77,14 +96,16 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+          <Toaster />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

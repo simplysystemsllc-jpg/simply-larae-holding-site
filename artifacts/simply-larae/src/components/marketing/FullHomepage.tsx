@@ -36,6 +36,7 @@ const fadeUp = {
 export default function FullHomepage() {
   const { data: services } = useListServices();
   const { data: faqs } = useListFaqs();
+  // SEO handled by index.html structured data + per-page SEO component when needed
   const sortedServices = services?.sort((a, b) => a.sortOrder - b.sortOrder) ?? [];
   const previewFaqs = faqs?.slice(0, 5) ?? [];
 

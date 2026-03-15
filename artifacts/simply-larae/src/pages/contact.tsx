@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { SEO } from "@/components/seo/SEO";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,20 +25,26 @@ const contactSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
-const GENERAL_MAILTO =
-  "mailto:simplylarae.dba@gmail.com?subject=Simply%20LaRae%20Inquiry&body=Hi%20Simply%20LaRae%20team,%0A%0AI%20have%20a%20question%20about:";
-
-const PARTNERSHIP_MAILTO =
-  "mailto:simplylarae.dba@gmail.com?subject=Simply%20LaRae%20Brand%20Partnership%20Inquiry&body=Hello%20Simply%20LaRae,%0A%0AOur%20brand%20is%20interested%20in%20exploring%20a%20partnership.";
-
 export default function Contact() {
   const { toast } = useToast();
   const submitContact = useSubmitContact();
+  const formRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "", subject: "", message: "" },
   });
+
+  const scrollToForm = (subject?: string) => {
+    if (subject) {
+      form.setValue("subject", subject);
+    }
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => {
+      const firstInput = formRef.current?.querySelector("input");
+      firstInput?.focus();
+    }, 500);
+  };
 
   const onSubmit = (data: z.infer<typeof contactSchema>) => {
     submitContact.mutate({ data }, {
@@ -52,6 +60,12 @@ export default function Contact() {
 
   return (
     <div className="w-full bg-white pb-32">
+      <SEO
+        title="Contact Us — Beauty Inquiries & Brand Partnerships"
+        description="Reach out to the Simply LaRae team with beauty questions, service inquiries, or brand partnership interest. Our concierge team responds within 24 hours, Monday–Friday 9am–6pm CST."
+        keywords="contact simply larae, beauty concierge inquiry, brand partnership inquiry, beauty advisory contact, simply integrated contact, beauty consultation contact"
+        canonical="/contact"
+      />
       {/* Page header */}
       <section className="pt-24 pb-16 px-4 bg-background border-b border-border/50 text-center">
         <p className="text-xs tracking-[0.3em] uppercase text-primary font-medium mb-4">
@@ -85,12 +99,15 @@ export default function Contact() {
                   <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground mb-1.5">
                     Email
                   </h3>
-                  <a
-                    href={GENERAL_MAILTO}
-                    className="text-[#6E544E] font-medium text-sm no-underline border-b border-[#D9A9A3] pb-0.5 transition-all duration-200 hover:text-[#8E6E67] hover:border-[#8E6E67]"
+                  <p className="text-sm text-muted-foreground font-light mb-2">
+                    Use the form to send us a message and our team will respond within 24 hours.
+                  </p>
+                  <button
+                    onClick={() => scrollToForm()}
+                    className="text-[#6E544E] font-medium text-sm border-b border-[#D9A9A3] pb-0.5 transition-all duration-200 hover:text-[#8E6E67] hover:border-[#8E6E67]"
                   >
-                    Contact our team
-                  </a>
+                    Contact our team →
+                  </button>
                 </div>
               </div>
 
@@ -106,12 +123,12 @@ export default function Contact() {
                   <p className="text-sm text-muted-foreground font-light leading-relaxed mb-2">
                     Beauty brands interested in collaboration opportunities can reach us directly.
                   </p>
-                  <a
-                    href={PARTNERSHIP_MAILTO}
-                    className="text-[#6E544E] font-medium text-sm no-underline border-b border-[#D9A9A3] pb-0.5 transition-all duration-200 hover:text-[#8E6E67] hover:border-[#8E6E67]"
+                  <button
+                    onClick={() => scrollToForm("Brand Partnership Inquiry — Simply LaRae")}
+                    className="text-[#6E544E] font-medium text-sm border-b border-[#D9A9A3] pb-0.5 transition-all duration-200 hover:text-[#8E6E67] hover:border-[#8E6E67]"
                   >
-                    Partnership Inquiry
-                  </a>
+                    Partnership Inquiry →
+                  </button>
                 </div>
               </div>
 
@@ -155,7 +172,7 @@ export default function Contact() {
           </div>
 
           {/* Right column — contact form */}
-          <div className="bg-background/50 p-8 rounded-3xl border border-border">
+          <div ref={formRef} className="bg-background/50 p-8 rounded-3xl border border-border scroll-mt-28">
             <h2 className="text-2xl font-light tracking-widest uppercase mb-8 text-foreground">
               Send an Inquiry
             </h2>
