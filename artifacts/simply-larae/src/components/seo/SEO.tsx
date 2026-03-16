@@ -10,6 +10,7 @@ const SITE_NAME = "Simply LaRae";
 const BASE_URL = "https://simplylarea.com";
 const DEFAULT_IMAGE = `${BASE_URL}/images/opengraph.jpg`;
 const TWITTER_HANDLE = "@SimplyLaRae";
+const DEFAULT_DESCRIPTION = "Simply LaRae is a luxury beauty advisory platform by Simply Integrated, LLC. AI-powered facial analysis and expert concierge guidance for personalized makeup recommendations, exact shade matches, and curated routines built for your face.";
 
 interface SEOProps {
   title?: string;
@@ -32,11 +33,12 @@ export function SEO({
 }: SEOProps) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Personalized Beauty Concierge | Facial Analysis & Shade Matching`;
   const canonicalUrl = canonical ? `${BASE_URL}${canonical}` : BASE_URL;
+  const desc = description || DEFAULT_DESCRIPTION;
 
   return (
     <Helmet>
       <title>{fullTitle}</title>
-      {description && <meta name="description" content={description} />}
+      <meta name="description" content={desc} />
       {keywords && <meta name="keywords" content={keywords} />}
       <meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1"} />
       <link rel="canonical" href={canonicalUrl} />
@@ -45,7 +47,7 @@ export function SEO({
       <meta property="og:type" content={ogType} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:title" content={fullTitle} />
-      {description && <meta property="og:description" content={description} />}
+      <meta property="og:description" content={desc} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
@@ -56,7 +58,7 @@ export function SEO({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={TWITTER_HANDLE} />
       <meta name="twitter:title" content={fullTitle} />
-      {description && <meta name="twitter:description" content={description} />}
+      <meta name="twitter:description" content={desc} />
       <meta name="twitter:image" content={ogImage} />
     </Helmet>
   );

@@ -4,7 +4,13 @@
   "installCommand": "pnpm install",
   "framework": null,
   "env": {
-    "BASE_PATH": "/"
+    "VITE_SUPABASE_URL": "https://uadwyidqrdervckeatcb.supabase.co",
+    "VITE_SUPABASE_KEY": "sb_publishable_yt8l1HRZB66BJbRMMURAJQ_dhKwvGaH"
+  },
+  "functions": {
+    "api/contact.js": {
+      "runtime": "nodejs18.x"
+    }
   },
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },

@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { SEO } from "@/components/seo/SEO";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useSubmitContact } from "@workspace/api-client-react";
+import { submitToContact } from "@/lib/submitContact";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -27,7 +27,7 @@ const contactSchema = z.object({
 
 export default function Contact() {
   const { toast } = useToast();
-  const submitContact = useSubmitContact();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof contactSchema>>({
@@ -46,16 +46,17 @@ export default function Contact() {
     }, 500);
   };
 
-  const onSubmit = (data: z.infer<typeof contactSchema>) => {
-    submitContact.mutate({ data }, {
-      onSuccess: () => {
-        toast({ title: "Inquiry Sent", description: "Our concierge team will reply within 24 hours." });
-        form.reset();
-      },
-      onError: () => {
-        toast({ title: "Error", description: "Failed to send inquiry. Please try again.", variant: "destructive" });
-      },
-    });
+  const onSubmit = async (data: z.infer<typeof contactSchema>) => {
+    setIsSubmitting(true);
+    try {
+      await submitToContact(data);
+      toast({ title: "Inquiry Sent", description: "Our concierge team will reply within 24 hours." });
+      form.reset();
+    } catch {
+      toast({ title: "Error", description: "Failed to send inquiry. Please try again.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -216,10 +217,10 @@ export default function Contact() {
                 )} />
                 <Button
                   type="submit"
-                  disabled={submitContact.isPending}
+                  disabled={isSubmitting}
                   className="w-full rounded-full uppercase tracking-widest text-xs h-12 bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20"
                 >
-                  {submitContact.isPending ? (
+                  {isSubmitting ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     "Send Inquiry"

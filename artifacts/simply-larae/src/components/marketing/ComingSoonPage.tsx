@@ -11,6 +11,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { SEO } from "@/components/seo/SEO";
+import { submitToContact } from "@/lib/submitContact";
 import {
   Sparkles,
   CheckCircle2,
@@ -33,21 +34,6 @@ function TikTokIcon({ className }: { className?: string }) {
   );
 }
 
-// ── Shared submit helper ─────────────────────────────────────────────────────
-
-async function submitToContact(payload: {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}) {
-  const res = await fetch("/api/contact", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) throw new Error("Request failed");
-}
 
 // ── Waitlist Modal ───────────────────────────────────────────────────────────
 
@@ -129,21 +115,21 @@ function WaitlistModal({ open, onClose }: WaitlistModalProps) {
               <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Full Name <span className="text-primary">*</span></label>
-                    <Input name="name" value={form.name} onChange={handleChange} placeholder="Your name" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
+                    <label htmlFor="waitlist-name" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Full Name <span className="text-primary">*</span></label>
+                    <Input id="waitlist-name" name="name" value={form.name} onChange={handleChange} placeholder="Your name" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Email Address <span className="text-primary">*</span></label>
-                    <Input name="email" type="email" value={form.email} onChange={handleChange} placeholder="you@example.com" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
+                    <label htmlFor="waitlist-email" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Email Address <span className="text-primary">*</span></label>
+                    <Input id="waitlist-email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="you@example.com" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Phone Number <span className="text-muted-foreground font-light normal-case tracking-normal">(optional)</span></label>
-                  <Input name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+1 (555) 000-0000" disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
+                  <label htmlFor="waitlist-phone" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Phone Number <span className="text-muted-foreground font-light normal-case tracking-normal">(optional)</span></label>
+                  <Input id="waitlist-phone" name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+1 (555) 000-0000" disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Quick Note <span className="text-muted-foreground font-light normal-case tracking-normal">(optional)</span></label>
-                  <Textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us what you're most excited about, or how you heard about Simply LaRae..." rows={3} disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light resize-none" />
+                  <label htmlFor="waitlist-note" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Quick Note <span className="text-muted-foreground font-light normal-case tracking-normal">(optional)</span></label>
+                  <Textarea id="waitlist-note" name="message" value={form.message} onChange={handleChange} placeholder="Tell us what you're most excited about, or how you heard about Simply LaRae..." rows={3} disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light resize-none" />
                 </div>
                 {status === "error" && <p className="text-xs text-red-500 font-light">{errorMsg}</p>}
                 <Button type="submit" disabled={status === "submitting" || !form.name.trim() || !form.email.trim()} className="w-full rounded-full py-5 tracking-widest uppercase text-xs bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/15 disabled:opacity-60">
@@ -242,27 +228,27 @@ function PartnershipModal({ open, onClose }: PartnershipModalProps) {
               <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Your Name <span className="text-primary">*</span></label>
-                    <Input name="contactName" value={form.contactName} onChange={handleChange} placeholder="Contact name" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
+                    <label htmlFor="partner-name" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Your Name <span className="text-primary">*</span></label>
+                    <Input id="partner-name" name="contactName" value={form.contactName} onChange={handleChange} placeholder="Contact name" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Company / Brand <span className="text-primary">*</span></label>
-                    <Input name="companyName" value={form.companyName} onChange={handleChange} placeholder="Brand name" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
+                    <label htmlFor="partner-company" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Company / Brand <span className="text-primary">*</span></label>
+                    <Input id="partner-company" name="companyName" value={form.companyName} onChange={handleChange} placeholder="Brand name" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Email Address <span className="text-primary">*</span></label>
-                    <Input name="email" type="email" value={form.email} onChange={handleChange} placeholder="you@brand.com" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
+                    <label htmlFor="partner-email" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Email Address <span className="text-primary">*</span></label>
+                    <Input id="partner-email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="you@brand.com" required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Brand Website <span className="text-muted-foreground font-light normal-case tracking-normal">(optional)</span></label>
-                    <Input name="website" value={form.website} onChange={handleChange} placeholder="yourbrand.com" disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
+                    <label htmlFor="partner-website" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Brand Website <span className="text-muted-foreground font-light normal-case tracking-normal">(optional)</span></label>
+                    <Input id="partner-website" name="website" value={form.website} onChange={handleChange} placeholder="yourbrand.com" disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Partnership Interest <span className="text-primary">*</span></label>
-                  <Textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your brand, the products you'd like considered, and what partnership looks like for you..." rows={4} required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light resize-none" />
+                  <label htmlFor="partner-message" className="text-[10px] uppercase tracking-[0.2em] font-medium text-foreground">Partnership Interest <span className="text-primary">*</span></label>
+                  <Textarea id="partner-message" name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your brand, the products you'd like considered, and what partnership looks like for you..." rows={4} required disabled={status === "submitting"} className="rounded-xl border-border/60 text-sm font-light resize-none" />
                 </div>
                 {status === "error" && <p className="text-xs text-red-500 font-light">{errorMsg}</p>}
                 <Button type="submit" disabled={status === "submitting" || !isValid} className="w-full rounded-full py-5 tracking-widest uppercase text-xs bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/15 disabled:opacity-60">

@@ -5,70 +5,65 @@
   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
     http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage / Coming Soon -->
   <url>
     <loc>https://simplylarea.com/</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Services — high commercial intent -->
   <url>
     <loc>https://simplylarea.com/services</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
 
-  <!-- How It Works — informational / top-of-funnel -->
   <url>
     <loc>https://simplylarea.com/how-it-works</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
-  <!-- About — brand story / trust signals -->
   <url>
     <loc>https://simplylarea.com/about</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
-  <!-- FAQ — long-tail keyword capture -->
   <url>
     <loc>https://simplylarea.com/faq</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
-  <!-- Contact -->
   <url>
     <loc>https://simplylarea.com/contact</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
 
-  <!-- Legal -->
   <url>
     <loc>https://simplylarea.com/privacy</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.35</priority>
   </url>
+
   <url>
     <loc>https://simplylarea.com/terms</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.35</priority>
   </url>
+
   <url>
     <loc>https://simplylarea.com/disclaimer</loc>
-    <lastmod>2025-03-15</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>

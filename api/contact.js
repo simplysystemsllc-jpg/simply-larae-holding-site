@@ -1,16 +1,15 @@
 /**
  * Vercel Serverless Function — /api/contact
  *
- * 1. Saves submission to Supabase (requires SUPABASE_URL + SUPABASE_KEY)
- * 2. Sends email via Resend (requires RESEND_API_KEY)
+ * Sends email notification via Resend when RESEND_API_KEY is set.
+ * Database storage is handled directly by the frontend via Supabase.
  *
- * Both are optional — missing keys skip that step gracefully.
- * Always returns 201 so the user sees the success confirmation.
+ * Always returns 201 — email failure is logged but never blocks the user.
  */
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "simplylarae.dba@gmail.com";
-const ADMIN_CC    = process.env.ADMIN_CC    || "simplysystemsllc@gmail.com";
-const FROM_EMAIL  = process.env.FROM_EMAIL  || "Simply LaRae <onboarding@resend.dev>";
+var ADMIN_EMAIL = process.env.ADMIN_EMAIL || "simplylarae.dba@gmail.com";
+var ADMIN_CC    = process.env.ADMIN_CC    || "simplysystemsllc@gmail.com";
+var FROM_EMAIL  = process.env.FROM_EMAIL  || "Simply LaRae <onboarding@resend.dev>";
 
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,35 +29,6 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: "validation_error", message: "All fields are required" });
   }
 
-  // ── 1. Save to Supabase ──────────────────────────────────────────────────
-  var SUPABASE_URL = process.env.SUPABASE_URL;
-  var SUPABASE_KEY = process.env.SUPABASE_KEY;
-
-  if (SUPABASE_URL && SUPABASE_KEY) {
-    try {
-      var dbRes = await fetch(SUPABASE_URL + "/rest/v1/contact_messages", {
-        method: "POST",
-        headers: {
-          "apikey": SUPABASE_KEY,
-          "Authorization": "Bearer " + SUPABASE_KEY,
-          "Content-Type": "application/json",
-          "Prefer": "return=minimal",
-        },
-        body: JSON.stringify({ name: name, email: email, subject: subject, message: message }),
-      });
-      if (!dbRes.ok) {
-        console.error("[SUPABASE ERROR]", dbRes.status, await dbRes.text());
-      } else {
-        console.log("[SUPABASE] saved contact from " + email);
-      }
-    } catch (err) {
-      console.error("[SUPABASE ERROR]", err);
-    }
-  } else {
-    console.log("[SUPABASE] skipped — SUPABASE_URL or SUPABASE_KEY not set");
-  }
-
-  // ── 2. Send email via Resend ─────────────────────────────────────────────
   var RESEND_API_KEY = process.env.RESEND_API_KEY;
 
   if (RESEND_API_KEY) {
