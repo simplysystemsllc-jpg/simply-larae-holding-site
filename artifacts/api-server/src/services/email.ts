@@ -8,8 +8,9 @@
  * To activate: set EMAIL_PROVIDER and EMAIL_API_KEY environment variables.
  */
 
-const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || "console";
-const FROM_EMAIL = process.env.FROM_EMAIL || "hello@simplylarea.com";
+// Auto-detect provider: if RESEND_API_KEY is set, use Resend regardless of EMAIL_PROVIDER
+const EMAIL_PROVIDER = process.env.RESEND_API_KEY ? "resend" : (process.env.EMAIL_PROVIDER || "console");
+const FROM_EMAIL = process.env.FROM_EMAIL || "Simply LaRae <onboarding@resend.dev>";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "simplylarae.dba@gmail.com";
 const ADMIN_CC = process.env.ADMIN_CC || "simplysystemsllc@gmail.com";
 const BRAND = "Simply LaRae";
