@@ -1,0 +1,8 @@
+{
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist/public",
+  "framework": null,
+  "env": {
+    "BASE_PATH": "/"
+  }
+}

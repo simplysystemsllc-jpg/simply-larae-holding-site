@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm --filter @workspace/simply-larae run build",
+  "outputDirectory": "artifacts/simply-larae/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "env": {
+    "BASE_PATH": "/"
+  }
+}

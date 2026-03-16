@@ -1,0 +1,972 @@
+You are my senior full-stack product engineer, systems architect, UX strategist, visual brand systems designer, AI product architect, and startup CTO.
+
+I want you to build a modern, production-ready beauty-tech web application called **Simply LaRae**.
+
+Important:
+- The brand name must always be spelled exactly **Simply LaRae**
+- Preserve capitalization exactly as: **LaRae**
+- Domain: **simplylarea.com**
+- Parent company: **Simply Integrated, LLC**
+- This is a premium beauty-tech concierge platform
+- This is not a toy project, not a generic landing page, and not an influencer-style beauty site
+- This should feel like a real startup-grade product with scalable architecture, premium UX, and clean modern code
+
+Your job is to design and build the MVP in one strong, cohesive pass.
+
+--------------------------------------------------
+PROJECT PURPOSE
+--------------------------------------------------
+
+Simply LaRae is a personalized beauty platform powered by facial analysis.
+
+The platform helps users determine the best:
+- makeup shades
+- beauty products
+- primers
+- finishing products
+- application methods
+- beauty routines
+
+using:
+- AI-driven facial assessment
+- structured intake data
+- rules-based recommendation logic
+- curated beauty product matching
+- beauty concierge-style expert guidance
+
+The product should feel like a combination of:
+- Apple design
+- Glossier / Sephora beauty UI
+- AI personalization platform
+
+The aesthetic should be:
+- luxurious
+- feminine
+- minimal
+- modern
+- conversion-focused
+- highly trustworthy
+- elegant without cliché
+
+This is a premium service business first, with future expansion into a larger AI beauty platform.
+
+--------------------------------------------------
+PRIMARY BUSINESS MODEL
+--------------------------------------------------
+
+The platform offers personalized beauty guidance through tiered paid services.
+
+Initial service tiers:
+
+1. Beauty Blueprint
+- entry offer
+- customer completes intake
+- receives personalized beauty recommendations
+- positioned as fast, practical, and affordable
+
+2. Concierge Beauty Plan
+- deeper recommendation package
+- fuller routine
+- curated shopping list
+
+3. Concierge Beauty Consultation
+- includes plan plus short consult session
+
+4. VIP Beauty Concierge
+- premium high-touch support
+- longer consult
+- more personalized guidance
+
+Planned add-ons may include:
+- seasonal refresh
+- event makeup plan
+- makeup bag audit
+
+Future subscription possibilities may include:
+- recurring beauty updates
+- member-only refreshes
+- premium beauty guidance
+- ongoing AI + concierge support
+
+The system must support flexible editing of these offers later in admin or code.
+
+--------------------------------------------------
+CORE CUSTOMER JOURNEY
+--------------------------------------------------
+
+Build the application around this flow:
+
+1. Visitor lands on homepage
+2. Visitor understands the value proposition immediately
+3. Visitor selects a service tier
+4. Visitor uploads a selfie and/or completes intake questionnaire
+5. Visitor pays
+6. Platform processes inputs and generates structured recommendation draft
+7. Admin / beauty expert reviews and finalizes results
+8. Visitor receives beauty recommendations and can build a beauty cart
+
+The platform should reduce overwhelm and make beauty choices feel confident, personalized, and easy.
+
+--------------------------------------------------
+FULL BRAND GUIDE
+--------------------------------------------------
+
+Use this brand system consistently across the entire UI.
+
+BRAND COLORS
+
+Primary Blush
+#EED4CF
+
+Soft Rose
+#D9A9A3
+
+Taupe Accent
+#8E6E67
+
+Warm Cocoa Text
+#6E544E
+
+Pearl Background
+#F5E7E3
+
+White
+#FFFFFF
+
+Rules:
+- Do NOT use harsh black
+- Do NOT use neon colors
+- Avoid cold, sterile grays
+- Favor warm refined neutrals
+- Create subtle depth with tonal contrast, not loud colors
+
+Build a true design token system using these colors.
+
+--------------------------------------------------
+TYPOGRAPHY
+--------------------------------------------------
+
+Primary Font:
+Inter (Google Font)
+
+Font Weights:
+- 300 Light
+- 400 Regular
+- 500 Medium
+
+Typography rules:
+- use generous letter spacing for headings
+- large elegant thin lettering for major headlines
+- wide tracking in hero and premium section headings
+- subheadings should use uppercase with high letter spacing
+- body text should be clean, modern, minimal, readable sans-serif
+- UI labels should feel polished and calm
+- overall typography should feel editorial, premium, and modern
+
+--------------------------------------------------
+LOGO
+--------------------------------------------------
+
+Text Logo:
+Simply LaRae
+
+Tagline:
+PERSONALIZED BEAUTY POWERED BY FACIAL ANALYSIS
+
+Logo requirements:
+- logo should be centered in the hero section
+- use elegant spacing
+- typography and spacing should feel premium and refined
+- do not distort the logo
+- create a consistent header/footer usage pattern
+- include favicon-ready adaptation if needed
+
+If a provided logo image or prior brand asset is available in the Replit workspace, use it as the source of truth.
+If not, implement a premium text-logo treatment in the meantime using the above brand rules.
+
+--------------------------------------------------
+PHOTO / HERO IMAGE DIRECTION
+--------------------------------------------------
+
+There is a prior brand/photo reference from the founder.
+
+If that image is available in the workspace, use it to guide:
+- homepage hero mood
+- softness
+- beauty tone
+- lighting direction
+- product atmosphere
+- brand emotion
+
+If direct image analysis is not possible in the environment:
+- emulate a soft luxury beauty-tech feel
+- use elegant gradients
+- warm editorial imagery placeholders
+- keep it polished, feminine, real, and premium
+
+Avoid:
+- cheesy stock photo energy
+- influencer clutter
+- teen beauty blog styling
+- discount cosmetics store vibes
+
+--------------------------------------------------
+DESIGN PRINCIPLES
+--------------------------------------------------
+
+The entire UI should feel:
+- minimal
+- soft
+- luxury beauty brand
+- clean
+- AI-powered but approachable
+- premium concierge
+- editorial
+- calm
+- polished but not sterile
+
+Use:
+- rounded cards
+- soft shadows
+- generous whitespace
+- subtle blush gradients
+- layered sections
+- elegant card layouts
+- subtle motion
+- strong hierarchy
+- clean forms
+- clear conversion buttons
+- premium spacing
+
+Avoid clutter.
+
+--------------------------------------------------
+TECH STACK
+--------------------------------------------------
+
+Preferred stack:
+- Next.js
+- TypeScript
+- React
+- Tailwind CSS
+- shadcn/ui
+- Supabase for database/auth/storage
+- Stripe for payments
+- Resend or equivalent for emails
+- Zod for validation
+- React Hook Form for forms
+
+If Replit works better with Vite for rapid implementation, you may use:
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- modern component architecture
+
+Decision rule:
+- prefer Next.js if practical for scalability, routing, SEO, and future production readiness
+- if Vite materially improves speed inside Replit, structure it so migration to Next.js would be straightforward
+
+The application must be mobile responsive.
+
+--------------------------------------------------
+MVP GOALS
+--------------------------------------------------
+
+Build an MVP that includes:
+
+PUBLIC-FACING PAGES
+- Homepage
+- How It Works
+- Services / Pricing
+- Intake / Questionnaire
+- Selfie Upload / Analysis
+- Recommendation Results
+- Beauty Cart
+- About
+- FAQ
+- Contact
+- Privacy Policy
+- Terms / Disclaimer
+
+FUNCTIONAL MVP CAPABILITIES
+- beautiful responsive frontend
+- branded luxury UI
+- service selection
+- selfie upload component
+- multi-step intake flow
+- image preview before analysis
+- placeholder analysis result UI
+- payment-ready architecture
+- product recommendation results page
+- product cards
+- beauty cart system
+- database schema for users, submissions, services, product library, recommendations
+- recommendation engine scaffold
+- admin dashboard scaffold
+- manual review workflow support
+- customer status tracking
+- report generation structure
+- email notification placeholders
+- SEO foundations
+- mobile-first responsive experience
+
+Do NOT build a toy landing page.
+Build a real foundation that can grow into a beauty-tech platform.
+
+--------------------------------------------------
+HOMEPAGE STRUCTURE
+--------------------------------------------------
+
+Hero Section
+- large centered logo
+- tagline: PERSONALIZED BEAUTY POWERED BY FACIAL ANALYSIS
+- subheadline explaining the service
+- CTA button
+
+Primary CTA text:
+"Get Your Beauty Blueprint"
+
+Hero background:
+- soft blush gradient
+- elegant luxury spacing
+- subtle premium motion
+- beauty-tech atmosphere
+
+Homepage sections should include:
+
+1. Hero
+2. Trust/value proposition
+3. Feature section
+4. How it works
+5. Service tiers preview
+6. Why Simply LaRae is different
+7. Personalized beauty support section
+8. FAQ preview
+9. Final CTA
+
+The messaging should clearly communicate:
+- personalized beauty help
+- less guesswork
+- AI facial analysis plus concierge guidance
+- curated product recommendations
+- confidence in choosing products
+- premium but approachable service
+
+--------------------------------------------------
+FEATURE SECTION
+--------------------------------------------------
+
+Create three columns explaining the platform:
+
+1. Facial Analysis
+Upload a selfie and our AI analyzes your facial structure, undertones, and features.
+
+2. Personalized Beauty Blueprint
+Receive curated product recommendations and routines tailored specifically to you.
+
+3. Concierge Beauty Guidance
+AI plus expert guidance to help you select the perfect shades and products.
+
+Use:
+- icons
+- soft cards
+- rounded corners
+- soft shadows
+- luxury spacing
+
+--------------------------------------------------
+HOW IT WORKS SECTION
+--------------------------------------------------
+
+Show these steps:
+
+Step 1
+Upload your selfie
+
+Step 2
+AI facial analysis
+
+Step 3
+Receive personalized beauty recommendations
+
+Step 4
+Build your beauty routine and purchase products
+
+Make this section highly visual and easy to scan.
+
+--------------------------------------------------
+SELFIE UPLOAD TOOL
+--------------------------------------------------
+
+Create a facial upload component where users can:
+- upload a selfie
+- preview image
+- remove / replace image
+- submit for analysis
+
+For MVP:
+- show a placeholder analysis result UI
+- build architecture for future AI facial detection engine integration
+- create clean upload states, success states, and placeholder analysis results
+
+The upload experience should feel premium and easy.
+
+--------------------------------------------------
+INTAKE QUESTIONNAIRE REQUIREMENTS
+--------------------------------------------------
+
+Build a multi-step intake flow.
+
+The questionnaire must capture at minimum:
+
+BASIC INFO
+- full name
+- email
+- age range
+
+SKIN PROFILE
+- skin type
+- skin tone
+- undertone
+- sensitivities / allergies
+
+PERSONAL FEATURES
+- natural hair color
+- eye color
+- freckles (yes/no/how visible)
+
+MAKEUP HABITS / PREFERENCES
+- makeup experience level
+- preferred brands
+- disliked brands
+- budget preference
+- natural vs glam preference
+- desired coverage
+- preferred finish
+- favorite current products
+- products that never work well
+
+GOALS / USE CASE
+- everyday makeup goals
+- event-specific needs
+- biggest frustration with beauty shopping
+- whether customer wants drugstore, high-end, or both
+- whether customer wants quick routine or full routine
+
+PRODUCT PREFERENCE LOGIC
+Include questions that support recommendations for:
+- primer type
+- foundation/tint options
+- concealer
+- blush
+- bronzer
+- highlighter
+- eye products
+- lip products
+- setting powder
+- setting spray / finishing spray
+- makeup prep
+- application method recommendations
+
+SPECIFIC STRATEGIC REQUIREMENTS
+Reflect these business rules:
+- skincare is NOT the focus for now
+- include makeup prep
+- include water-based vs silicone-based primer compatibility
+- include makeup final touch
+- include setting sprays and powders
+- include application recommendations:
+  - sponge
+  - brush
+  - fingers
+- allow the platform later to offer:
+  - curated shopping cart
+  - one-click recommended cart
+  - drugstore vs high-end comparisons with pros/cons
+
+The form should:
+- be multi-step
+- save progress if possible
+- validate clearly
+- feel premium and easy
+- store responses cleanly in database
+
+--------------------------------------------------
+RECOMMENDATION ENGINE SCAFFOLD
+--------------------------------------------------
+
+Build the data model and service layer for a recommendation engine, even if some logic starts rules-based.
+
+Recommendation engine should eventually use:
+- facial analysis outputs
+- skin tone
+- undertone
+- skin type
+- sensitivities
+- makeup goals
+- price preference
+- brand preference
+- finish preference
+- complexity preference
+- compatibility rules
+
+For MVP, create a rules-based engine that can:
+- map customer profile to product categories
+- recommend product types
+- recommend routine steps
+- suggest drugstore vs high-end options
+- flag primer compatibility logic
+- generate structured recommendation output
+
+The recommendation output should support sections like:
+- overall beauty profile summary
+- foundation shade match
+- concealer recommendations
+- blush and bronzer suggestions
+- lip color recommendations
+- makeup prep recommendations
+- setting spray / finishing powder
+- best product categories for this customer
+- recommended everyday routine
+- complexion recommendations
+- final touch recommendations
+- application method recommendations
+- shopping list
+- notes from expert review
+
+--------------------------------------------------
+RECOMMENDATION RESULTS PAGE
+--------------------------------------------------
+
+Create a recommendation results page that shows sections for:
+
+- Foundation Shade Match
+- Concealer Recommendations
+- Blush and Bronzer Suggestions
+- Lip Color Recommendations
+- Makeup Prep Recommendations
+- Setting Spray / Finishing Powder
+
+Each recommendation should appear inside elegant product cards.
+
+--------------------------------------------------
+MAKEUP PREP SECTION
+--------------------------------------------------
+
+Include recommendations for:
+- water-based primer
+- silicone-based primer
+
+Explain which one matches the user’s skin type and routine needs.
+
+--------------------------------------------------
+APPLICATION GUIDE
+--------------------------------------------------
+
+Include sections explaining:
+- apply with sponge
+- apply with brush
+- apply with fingers
+
+This should be presented as a premium guidance section, not just a plain bullet dump.
+
+--------------------------------------------------
+PRODUCT LIBRARY ARCHITECTURE
+--------------------------------------------------
+
+Create a database schema and admin structure for a curated product library.
+
+Each product should be able to store:
+- product image
+- product name
+- brand
+- category
+- subcategory
+- price
+- price tier
+- drugstore vs high-end
+- shade range notes
+- undertone notes
+- skin type fit
+- finish
+- coverage
+- formula base (water/silicone/other if relevant)
+- sensitivity flags
+- best use case
+- why it was recommended
+- pros
+- cons
+- affiliate link placeholder
+- active/inactive status
+
+Categories should support things like:
+- primer
+- skin tint / foundation
+- concealer
+- blush
+- bronzer
+- highlighter
+- mascara
+- brows
+- eyeliner
+- eyeshadow
+- lips
+- powder
+- setting spray
+- finishing spray
+- tools / applicators
+
+Build this so recommendations can be matched from the product library later.
+
+--------------------------------------------------
+PRODUCT CARDS
+--------------------------------------------------
+
+Each product card should include:
+- product image
+- product name
+- brand
+- why it was recommended
+- price if available
+- button
+
+Button text:
+"Add to Beauty Cart"
+
+Cards should feel:
+- clean
+- premium
+- soft
+- modern
+- shoppable without feeling cheap
+
+--------------------------------------------------
+SHOPPING CART
+--------------------------------------------------
+
+Create a simple beauty cart system where users can add recommended products.
+
+Cart should include:
+- product image
+- product name
+- brand
+- price
+- quantity controls if reasonable
+- remove item action
+- subtotal
+- checkout button
+
+This can be a simple MVP cart, but it should be real enough to demonstrate the flow.
+
+--------------------------------------------------
+ADMIN DASHBOARD
+--------------------------------------------------
+
+Create a basic but operational admin panel where admin can:
+- add products
+- edit products
+- manage product library
+- view user submissions
+- view uploaded selfie submissions
+- view questionnaire answers
+- edit recommendations
+- manage service tiers
+- track consult requests
+- mark report delivered
+- track workflow status
+
+Suggested statuses:
+- new
+- intake submitted
+- selfie uploaded
+- paid
+- in review
+- recommendation drafted
+- expert reviewed
+- delivered
+- follow-up pending
+- closed
+
+Admin UX should be clean and efficient, not beautiful-for-beauty’s-sake only.
+Make it operationally useful.
+
+--------------------------------------------------
+DATA MODEL REQUIREMENTS
+--------------------------------------------------
+
+Design a clean schema including tables such as:
+- users
+- customer_profiles
+- service_tiers
+- intake_submissions
+- intake_answers
+- facial_uploads
+- facial_analysis_results
+- products
+- product_tags
+- recommendation_reports
+- recommendation_items
+- consultations
+- order_payments
+- beauty_cart_items
+- workflow_status
+- admin_notes
+
+Relationships should be well thought out for future scale.
+
+--------------------------------------------------
+PAYMENTS AND CONVERSION
+--------------------------------------------------
+
+Integrate Stripe in a way that supports:
+- service purchase
+- service-specific checkout
+- gated intake access or post-purchase intake flow
+- webhook-ready architecture
+- payment status tracking in database
+- future product-cart checkout expansion
+
+Do not fake payments.
+If needed for MVP, scaffold with Stripe test mode.
+
+--------------------------------------------------
+EMAIL / NOTIFICATION FLOW
+--------------------------------------------------
+
+Create a notification architecture for:
+- confirmation after purchase
+- intake submission received
+- selfie upload submission received
+- admin notified of new paid customer
+- status update email
+- report delivered email
+- consultation scheduling placeholder
+
+Use a clean provider integration structure.
+If full email sending is not completed, scaffold it cleanly.
+
+--------------------------------------------------
+SEO REQUIREMENTS
+--------------------------------------------------
+
+Implement strong SEO basics:
+- page-level metadata
+- titles and descriptions
+- Open Graph metadata
+- structured headings
+- semantic HTML
+- sitemap-ready setup
+- robots-ready setup
+
+Homepage should be optimized around themes such as:
+- personalized beauty recommendations
+- beauty concierge
+- beauty analysis
+- facial analysis for beauty
+- makeup routine recommendations
+- shade and product matching
+- beauty guidance online
+
+--------------------------------------------------
+LEGAL / TRUST REQUIREMENTS
+--------------------------------------------------
+
+Include pages and placeholders for:
+- privacy policy
+- terms of service
+- disclaimer
+- affiliate disclosure placeholder
+
+The site should feel credible and safe for customers uploading images and submitting beauty preferences.
+
+--------------------------------------------------
+DESIGN DETAILS
+--------------------------------------------------
+
+Buttons
+- rounded
+- soft taupe background
+- white text
+
+Hover state
+- darker taupe
+
+Cards
+- rounded
+- soft shadows
+- white backgrounds
+
+Spacing
+- generous margins
+- clean layout
+- premium vertical rhythm
+
+Use subtle blush gradients and warm neutral layering.
+
+--------------------------------------------------
+FUTURE FEATURES PLACEHOLDERS
+--------------------------------------------------
+
+Include clean placeholder components or modules for:
+- AI facial detection engine
+- facial landmark analysis
+- undertone detection engine
+- user account login
+- subscription system
+- beauty blueprint report generator
+- one-click beauty cart
+- affiliate commerce
+- expert beauty review workflow expansion
+
+These should be scaffolded so the architecture is future-ready.
+
+--------------------------------------------------
+BUILD QUALITY REQUIREMENTS
+--------------------------------------------------
+
+I want you to build:
+- real folder structure
+- reusable components
+- maintainable code
+- typed APIs
+- good naming
+- design tokens
+- Tailwind theme extension
+- environment variable setup
+- clean README
+- easy local/dev deployment
+- scalable architecture
+- modular service layer
+- reusable branded UI components
+
+Do NOT dump everything into one file.
+Do NOT create spaghetti code wrapped in pretty CSS.
+Do NOT over-engineer with needless complexity.
+
+--------------------------------------------------
+FILE / DESIGN SYSTEM REQUIREMENTS
+--------------------------------------------------
+
+Create and wire files like:
+- src/lib/brand/brand-tokens.ts
+- src/lib/brand/colors.ts
+- src/lib/brand/typography.ts
+- src/lib/brand/spacing.ts
+- src/lib/brand/motion.ts
+- src/lib/brand/voice.ts
+
+Also create:
+- reusable Button component
+- Card component
+- Section wrapper
+- Hero component
+- Feature card component
+- Upload component
+- Product card component
+- Cart drawer or cart page
+- Admin dashboard layout
+- Recommendation results layout
+
+Extend Tailwind theme with the Simply LaRae palette and design tokens.
+
+--------------------------------------------------
+OUTPUT FORMAT I WANT FROM YOU
+--------------------------------------------------
+
+Build this in phases, but keep momentum and continue building.
+
+PHASE 1
+Give me:
+1. overall product architecture
+2. technical architecture
+3. app sitemap
+4. database schema
+5. folder structure
+6. design token system
+7. homepage visual direction
+8. phased implementation roadmap
+
+PHASE 2
+Then begin generating the actual codebase.
+
+Start with:
+- project setup
+- core layout
+- Tailwind theme extension
+- brand token files
+- homepage
+- service tier pages
+- selfie upload page/component
+- intake flow scaffolding
+- recommendation results page
+- beauty cart
+- Supabase schema
+- admin scaffold
+- Stripe scaffolding
+- reusable branded UI components
+
+PHASE 3
+Then continue building the remaining modules.
+
+At every stage:
+- explain what you built
+- explain what remains
+- identify assumptions
+- keep momentum
+- make strong product decisions without unnecessary questions
+- show file tree updates as you go
+
+--------------------------------------------------
+REPLIT EXECUTION RULES
+--------------------------------------------------
+
+Do not pause for broad brainstorming.
+Do not ask unnecessary strategic questions.
+Make strong grounded product decisions and keep building.
+
+Whenever possible:
+- create real files
+- show file tree updates
+- wire systems together
+- keep naming consistent
+- keep branding consistent with Simply LaRae
+
+If brand photo/logo/reference assets are available in the workspace:
+- use them
+- analyze them
+- apply them consistently
+
+If exact asset analysis is not technically possible:
+- implement the full provided brand guide exactly
+- build the system so asset-derived refinements can be swapped in later without major refactor
+
+--------------------------------------------------
+FINAL GOAL
+--------------------------------------------------
+
+Generate a beautiful luxury beauty-tech website and application that showcases:
+
+- Simply LaRae
+- Personalized beauty powered by facial analysis
+- Elegant modern UI
+- Mobile friendly experience
+- Conversion-focused design
+- Premium beauty concierge feel
+- Scalable product architecture
+
+Act like you are building the strongest possible MVP for a founder who wants:
+- speed
+- quality
+- credibility
+- scalability
+- premium brand positioning
+
+Start now with:
+1. product architecture
+2. technical architecture
+3. schema
+4. folder structure
+5. phased implementation plan
+6. design token system
+7. then begin coding the project
