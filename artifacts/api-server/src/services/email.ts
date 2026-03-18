@@ -10,7 +10,7 @@
 
 // Auto-detect provider: if RESEND_API_KEY is set, use Resend regardless of EMAIL_PROVIDER
 const EMAIL_PROVIDER = process.env.RESEND_API_KEY ? "resend" : (process.env.EMAIL_PROVIDER || "console");
-const FROM_EMAIL = process.env.FROM_EMAIL || "Simply LaRae <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.FROM_EMAIL || "Simply LaRae <hello@simplyintegratedco.com>";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "simplylarae.dba@gmail.com";
 const ADMIN_CC = process.env.ADMIN_CC || "simplysystemsllc@gmail.com";
 const BRAND = "Simply LaRae";
@@ -30,17 +30,19 @@ async function sendEmail(payload: EmailPayload): Promise<void> {
     return;
   }
 
-  // Resend integration (add RESEND_API_KEY to env)
   if (EMAIL_PROVIDER === "resend") {
     const { Resend } = await import("resend");
     const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: payload.from ?? FROM_EMAIL,
       to: payload.to,
       cc: payload.cc,
       subject: payload.subject,
       html: payload.html,
     });
+    if (error) {
+      throw new Error(`Resend API error: ${error.name} — ${error.message}`);
+    }
     return;
   }
 }
@@ -196,6 +198,33 @@ export async function sendContactNotification(name: string, fromEmail: string, s
       <strong>Email:</strong> ${fromEmail}<br/>
       <strong>Subject:</strong> ${subject}</p>
       <p><strong>Message:</strong><br/>${message.replace(/\n/g, "<br/>")}</p>
+    `),
+  });
+}
+
+export async function sendContactConfirmation(to: string, customerName: string): Promise<void> {
+  await sendEmail({
+    to,
+    subject: `${BRAND} — We Received Your Message`,
+    html: baseTemplate(`
+      <p>Dear ${customerName},</p>
+      <p>Thank you for reaching out to Simply LaRae. We've received your message and our team will review it shortly.</p>
+      <p>We typically respond within 1–2 business days. If your inquiry is urgent, feel free to reply to this email.</p>
+      <p>We appreciate your interest and look forward to connecting with you.</p>
+    `),
+  });
+}
+
+export async function sendBrandInquiryConfirmation(to: string, contactName: string, companyName: string): Promise<void> {
+  await sendEmail({
+    to,
+    subject: `${BRAND} — Brand Partnership Inquiry Received`,
+    html: baseTemplate(`
+      <p>Dear ${contactName},</p>
+      <p>Thank you for your interest in partnering with Simply LaRae. We've received your inquiry on behalf of <strong>${companyName}</strong>.</p>
+      <p>Our team carefully reviews every partnership request. We'll follow up within 2–3 business days with next steps.</p>
+      <p>In the meantime, if you have any additional information to share, simply reply to this email.</p>
+      <p>We look forward to exploring how we can work together.</p>
     `),
   });
 }

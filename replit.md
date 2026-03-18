@@ -171,7 +171,9 @@ create policy "allow_insert" on contact_messages for insert with check (true);
 
 ## Email Architecture (artifacts/api-server/src/services/email.ts)
 
-Scaffold with 6 transactional flows. Console-log mode by default. Ready for Resend activation via EMAIL_PROVIDER + RESEND_API_KEY env vars:
+Live via Resend (RESEND_API_KEY required). Auto-detects Resend when API key is set, falls back to console logging otherwise. Verified sender domain: `simplyintegratedco.com`. Default FROM: `Simply LaRae <hello@simplyintegratedco.com>`.
+
+Admin notifications go to `simplylarae.dba@gmail.com` (CC: `simplysystemsllc@gmail.com`).
 
 - `sendPurchaseConfirmation` — Order confirmed
 - `sendIntakeReceived` — Profile submitted
@@ -179,7 +181,10 @@ Scaffold with 6 transactional flows. Console-log mode by default. Ready for Rese
 - `sendAdminNewSubmission` — Admin alert on new submission
 - `sendBlueprintDelivered` — Blueprint ready with link
 - `sendConciergeRequestConfirmation` — Concierge purchase
-- `sendBrandInquiryNotification` — Brand partnership inquiry
+- `sendBrandInquiryNotification` — Brand partnership inquiry (admin)
+- `sendBrandInquiryConfirmation` — Brand inquiry confirmation (submitter)
+- `sendContactNotification` — Contact form admin notification
+- `sendContactConfirmation` — Contact form confirmation (submitter)
 
 ## Stripe Scaffolding (artifacts/api-server/src/services/stripe.ts)
 
@@ -244,7 +249,7 @@ Controls whether the public homepage shows the coming soon page or the full site
 ## Roadmap
 
 - Stripe activation (add STRIPE_SECRET_KEY)
-- Custom Resend domain (verify simplylarea.com in Resend → add FROM_EMAIL env var)
+- ~~Custom Resend domain~~ — verified `simplyintegratedco.com` (active)
 - Real AI facial analysis via computer vision API
 - Admin selfie viewer + blueprint editor
 - Submission workflow status updates via admin

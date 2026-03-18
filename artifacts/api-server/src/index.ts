@@ -1,17 +1,20 @@
 import app from "./app";
 
-const rawPort = process.env["PORT"];
+process.on("unhandledRejection", (reason) => {
+  console.error("[SERVER] Unhandled rejection:", reason);
+});
 
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
+process.on("uncaughtException", (err) => {
+  console.error("[SERVER] Uncaught exception — shutting down:", err);
+  process.exit(1);
+});
 
-const port = Number(rawPort);
+const rawPort = process.env["PORT"] || "8080";
+const parsedPort = Number(rawPort);
+const port = (Number.isNaN(parsedPort) || parsedPort <= 0) ? 8080 : parsedPort;
 
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
+if (Number.isNaN(parsedPort) || parsedPort <= 0) {
+  console.warn(`[SERVER] Invalid PORT value: "${rawPort}", defaulting to 8080`);
 }
 
 app.listen(port, () => {

@@ -1,0 +1,105 @@
+Summarize the issue and suggest fixes for the following lint item: Title: RLS Policy Always True Entity: public.contact_messages Schema: public Issue Details: Table public.contact_messages has an RLS policy allow_public_insert for INSERT that allows unrestricted access (WITH CHECK clause is always true). This effectively bypasses row-level security for -. Description: Detects RLS policies that use overly permissive expressions like USING (true) or WITH CHECK (true) for UPDATE, DELETE, or INSERT operations. SELECT policies with USING (true) are intentionally excluded as this pattern is often used deliberately for public read access.
+
+
+
+
+Reasoned
+Summary
+Table: public.contact_messages
+Problem: The RLS policy allow_public_insert for INSERT uses an always-true condition in its WITH CHECK clause (e.g., WITH CHECK (true)), which permits anyone who can reach the table to insert any row.
+Impact: This effectively disables row-level security for inserts on this table—malicious or automated actors can spam or inject arbitrary data. It also prevents applying per-user or per-condition constraints (e.g., rate limits, required ownership/tenant, or schema validation via RLS).
+Why this is risky
+RLS default-deny is bypassed for INSERTs.
+If your API exposes insert paths (e.g., via anon key, public endpoints, or Edge Functions that use anon/authenticated roles), attackers could create unbounded rows.
+Harder to enforce invariants like ensuring values (e.g., user_id, tenant_id, verified flags) match the requestor.
+Recommended Fixes
+Choose one of the patterns below based on your intended access model. Replace the permissive policy with a constrained policy and ensure RLS remains enabled.
+
+If inserts should be allowed only to authenticated users
+Grant minimal privileges and check auth:
+Grant:
+GRANT INSERT ON public.contact_messages TO authenticated;
+Policy (require a logged-in user):
+WITH CHECK ensuring a valid user context:
+SQL Query
+
+
+
+DROP POLICY IF EXISTS "allow_public_insert" ON public.contact_messages;
+CREATE POLICY "contact_insert_by_auth_users"
+ON public.contact_messages
+FOR INSERT
+TO authenticated
+WITH CHECK ((SELECT auth.uid()) IS NOT NULL);
+
+If the table has a user_id column and you want ownership consistency, enforce it:
+SQL Query
+
+
+
+WITH CHECK ((SELECT auth.uid()) = user_id)
+
+If inserts must be public/anonymous but constrained
+Keep anon access, but validate fields and mitigate abuse:
+Grant:
+GRANT INSERT ON public.contact_messages TO anon;
+Policy options:
+Allow only specific columns via database defaults or triggers; make sensitive columns GENERATED or set by trigger.
+Basic anti-abuse checks in RLS (e.g., message length, presence of required fields):
+SQL Query
+
+
+
+DROP POLICY IF EXISTS "allow_public_insert" ON public.contact_messages;
+CREATE POLICY "public_contact_insert_limited"
+ON public.contact_messages
+FOR INSERT
+TO anon
+WITH CHECK (
+  char_length(coalesce(message, '')) BETWEEN 1 AND 2000
+  AND char_length(coalesce(email, '')) BETWEEN 3 AND 255
+  AND position('@' in coalesce(email, '')) > 1
+);
+
+Prefer rate limiting and spam protection in your API layer or an Edge Function, and write to the table using the service_role (which bypasses RLS) after validation.
+If inserts should be allowed only via server code
+Remove direct client insert access; only your Edge Function or backend writes using the service role:
+Revoke grants from anon and authenticated:
+REVOKE INSERT ON public.contact_messages FROM anon, authenticated;
+Keep RLS strict (no permissive insert policy).
+Write via an Edge Function using SUPABASE_SERVICE_ROLE_KEY, applying validation, CAPTCHA, and rate limits.
+If this table is multi-tenant or user-scoped
+Enforce tenant or user ownership in the policy and index the constrained columns:
+SQL Query
+
+
+
+DROP POLICY IF EXISTS "allow_public_insert" ON public.contact_messages;
+CREATE POLICY "tenant_scoped_insert"
+ON public.contact_messages
+FOR INSERT
+TO authenticated
+WITH CHECK (tenant_id = (auth.jwt() ->> 'tenant_id')::uuid);
+
+CREATE INDEX IF NOT EXISTS idx_contact_messages_tenant ON public.contact_messages(tenant_id);
+
+Additional Best Practices
+Ensure RLS is enabled:
+SQL Query
+
+
+
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+
+Specify TO roles explicitly in policies (avoid TO PUBLIC).
+Keep sensitive columns protected:
+Use GENERATED ALWAYS or triggers to set server-controlled fields (e.g., status, reviewed_at, user_id).
+Add input validation in API/Edge Functions:
+Enforce CAPTCHA and rate limiting for public forms.
+Index columns used in policy predicates (e.g., user_id, tenant_id) for performance.
+Quick Checklist
+Remove the permissive policy (WITH CHECK (true)).
+Decide who can insert (anon, authenticated, server-only).
+Create a narrow policy with proper WITH CHECK.
+Adjust GRANT/REVOKE to match the policy’s intended roles.
+Add server-side protections (validation, CAPTCHA, rate limiting) if public insert is needed.
