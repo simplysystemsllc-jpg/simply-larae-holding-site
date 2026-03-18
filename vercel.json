@@ -7,11 +7,6 @@
     "VITE_SUPABASE_URL": "https://uadwyidqrdervckeatcb.supabase.co",
     "VITE_SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhZHd5aWRxcmRlcnZja2VhdGNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2NjE4NzcsImV4cCI6MjA4OTIzNzg3N30.JUd5E17Yy720oLEqn6hqbwoP571vZxQNklV9Pwc6jHU"
   },
-  "functions": {
-    "api/contact.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     { "source": "/api/contact", "destination": "/api/contact" },
     { "source": "/(.*)", "destination": "/index.html" }
