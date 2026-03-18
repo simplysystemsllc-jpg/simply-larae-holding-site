@@ -1,8 +1,6 @@
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY as string | undefined;
 
-const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/simplylarae.dba@gmail.com";
-
 export async function submitToContact(payload: {
   name: string;
   email: string;
@@ -22,22 +20,10 @@ export async function submitToContact(payload: {
     }).catch(() => {});
   }
 
-  const res = await fetch(FORMSUBMIT_ENDPOINT, {
+  const res = await fetch("/api/contact", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      name: payload.name,
-      email: payload.email,
-      message: `Subject: ${payload.subject}\n\n${payload.message}`,
-      _subject: `[Simply LaRae] ${payload.subject} — ${payload.name}`,
-      _replyto: payload.email,
-      _captcha: "false",
-      _template: "table",
-    }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   });
-
   if (!res.ok) throw new Error("Request failed");
 }
